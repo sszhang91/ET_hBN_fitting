@@ -15,7 +15,7 @@ freqs_fit=imported(1,:);%the freqs are the header in row 1
 xs=importdata('xs.csv',',');
 %% the manual parts that will need to be changed for every line and iteration
 %here, select the frequency to fit, plot, and then manually select
-freq_num=18; %just which column it is in
+freq_num=17; %just which column it is in
 %first plot it to decide which parts to use
 linefull=S3_profiles(:,freq_num);
 freq=freqs_fit(freq_num)
@@ -25,7 +25,7 @@ plot(xs,linefull,'Ok','Markersize',9);
 %% now to get the part to fit
 % for column 10, freq: 1397, use the part between 2 and 4
 ind_start=127;
-ind_end=205;
+ind_end=199;
 
 line2fit=flip(linefull(ind_start:ind_end));
 xs2fit=xs(ind_start:ind_end)-(xs(ind_start)-0.25); %consistently start at 0.25
@@ -38,13 +38,13 @@ plot(xs2fit,line2fit,'Ok','Markersize',9); hold on
 %as 0.2591+0.743=1.0021
 %the fitting function is:
 
-Lp=01.725546;
-lambdafit=0.108114673245139111114531199;
-offset=0.7508149754565435960519987136;
+Lp=0.5546;
+lambdafit=0.1199;
+offset=0.987136;
 %slope=0;
 %a=1;
-st_ind=2; %ignore the first wiggly bit
-end_ind=63;
+st_ind=7; %ignore the first wiggly bit
+end_ind=53;
 
 % F_new=@(x,t)offset+x(1).*exp(-2*t./Lp)...
 %     .*sin(2*pi.*(t-x(2))./lambdafit)...
@@ -74,7 +74,7 @@ F_new=@(x,t)offset+x(1).*exp(-2*t./x(5))...
 %% fitting parameters 
 
 %      A1  xc1   A2   xc2    Lp lambdafit offset a slope
-x0 = [1, 4.9618, 2, 3, Lp, lambdafit, offset, a, slope]; x = x0; % seed
+x0 = [0.0091, 4.9618, 0.0820, 1.9015, Lp, lambdafit, offset, a, slope]; x = x0; % seed
 lb = [0, 0,0, 0, 0, 0,0,0, 0,-1]; % lower bound
 ub = [2, 10, 5, 5, 3, 2,2, 5,1 ]; % upper bound
 
