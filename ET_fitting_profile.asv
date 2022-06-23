@@ -39,8 +39,8 @@ plot(xs2fit,line2fit,'Ok','Markersize',9); hold on
 %the fitting function is:
 
 
-Lp=1.5;
-lambdafit=0.2231;
+Lp=0.89;
+lambdafit=0.231;
 offset=0.755;
 slope=0;
 a=1;
