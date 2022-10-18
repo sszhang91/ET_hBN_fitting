@@ -29,7 +29,7 @@ ind_end=203;
 
 line2fit=flip(linefull(ind_start:ind_end));
 xs2fit=xs(ind_start:ind_end)-(xs(ind_start)-0.25); %consistently start at 0.25
-x
+
 figure();
 plot(xs2fit,line2fit,'Ok','Markersize',9); hold on
 
