@@ -15,7 +15,7 @@ freqs_fit=imported(1,:);%the freqs are the header in row 1
 xs=importdata('xs.csv',',');
 %% the manual parts that will need to be changed for every line and iteration
 %here, select the frequency to fit, plot, and then manually select
-freq_num=17; %just which column it is in
+freq_num=13; %just which column it is in
 %first plot it to decide which parts to use
 linefull=S3_profiles(:,freq_num);
 freq=freqs_fit(freq_num)
@@ -24,8 +24,8 @@ plot(xs,linefull,'Ok','Markersize',9);
 
 %% now to get the part to fit
 % for column 10, freq: 1397, use the part between 2 and 4
-ind_start=80;
-ind_end=203;
+ind_start=40;
+ind_end=190;
 
 line2fit=flip(linefull(ind_start:ind_end));
 xs2fit=xs(ind_start:ind_end)-(xs(ind_start)-0.25); %consistently start at 0.25
@@ -39,13 +39,13 @@ plot(xs2fit,line2fit,'Ok','Markersize',9); hold on
 %the fitting function is:
 
 
-Lp=1.5;
-lambdafit=0.2231;
-offset=0.755;
+Lp=1.3;
+lambdafit=0.95;
+offset=1.285;
 slope=0;
 a=1;
-st_ind=10; %ignore the first wiggly bit
-end_ind=90;
+st_ind=8; %ignore the first wiggly bit
+end_ind=120;
 
 % F_new=@(x,t)offset+x(1).*exp(-2*t./Lp)...
 %     .*sin(2*pi.*(t-x(2))./lambdafit)...
@@ -75,10 +75,15 @@ F_new=@(x,t)offset+x(1).*exp(-2*t./x(5))...
 %% fitting parameters 
 
 %      A1  xc1   A2   xc2    Lp lambdafit offset a slope
-x0 = [1, 1, 1, 1, Lp, lambdafit, offset, a, slope]; x = x0; % seed
-lb = [0, 0,0, 0, 0, 0,0,0, 0,-1]; % lower bound
-ub = [3, 15, 5, 5, 3, 2,2, 5,1 ]; % upper bound
+% x0 = [1, 1, 1, 1, Lp, lambdafit, offset, a, slope]; x = x0; % seed
+% lb = [0, 0,0, 0, 0, 0,0,0, 0,-1]; % lower bound
+% ub = [3, 15, 5, 5, 3, 2,2, 5,1 ]; % upper bound
 
+%temporarily fixing A1 to be 0
+x0 = [0, 1, 1, 1, Lp, lambdafit, offset, a, slope]; x = x0; % seed
+lb = [0, 0,0, 0, 0, 0,0,0, 0,-1]; % lower bound
+ub = [0, 15, 10, 10, 5, 2,2, 5,1 ]; % upper bound
+%it just doesn't... work?
 
 %% Fitting options
 curvefitoptions = optimset( 'Display', 'final' ,'MaxFunEvals',2e5,'TolFun',1e-8);
@@ -89,5 +94,6 @@ curvefitoptions = optimset( 'Display', 'final' ,'MaxFunEvals',2e5,'TolFun',1e-8)
 xp = linspace(xs2fit(st_ind),xs2fit(end_ind),1000); yp = F_new(real(x),xp); plot(xp,yp, '-', 'linewidth', 2)
 xlabel('L (\mum)')
 ylabel('s_3 (a.u.)')  
+
 
 
